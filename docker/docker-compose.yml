@@ -1,0 +1,18 @@
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/server/Dockerfile
+    container_name: server
+    ports:
+      - 4000:4000
+    # depends_on:
+      # db:
+      #   condition: service_healthy
+      # opensearch-node1:
+      #   condition: service_healthy
+      # opensearch-node2:
+      #   condition: service_healthy
+      # migrations:
+      #   condition: service_completed_successfully
+    command: npm run start:prod
