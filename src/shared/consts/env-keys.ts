@@ -1,0 +1,11 @@
+const envKeys = {
+  database: {
+    host: 'DATABASE_HOST',
+    port: 'DATABASE_PORT',
+    username: 'DATABASE_USER',
+    password: 'DATABASE_PASSWORD',
+    name: 'DATABASE_NAME',
+  },
+}
+
+export default envKeys
