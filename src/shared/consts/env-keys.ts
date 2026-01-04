@@ -5,6 +5,13 @@ const envKeys = {
     username: 'DATABASE_USER',
     password: 'DATABASE_PASSWORD',
     name: 'DATABASE_NAME',
+    hostOutside: 'DATABASE_HOST_OUTER',
+    portOutside: 'DATABASE_PORT_OUTER',
+  },
+  auth: {
+    password: {
+      secret: 'PASSWORD_SECRET',
+    },
   },
   jwt: {
     access: {
