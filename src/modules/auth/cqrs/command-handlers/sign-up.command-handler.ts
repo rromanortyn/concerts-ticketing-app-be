@@ -1,12 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
+import { Repository } from 'typeorm'
+import { ConflictException } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 
 import SignUpCommand from '../commands/sign-up.command'
 import SignUpCommandOutput from '../../types/classes/command-outputs/sign-up.command-output'
 import AccessTokenService from '../../services/access-token.service'
-import { InjectRepository } from '@nestjs/typeorm'
 import UserEntity from 'src/data/entities/user.entity'
-import { QueryFailedError, Repository, TypeORMError } from 'typeorm'
-import { ConflictException } from '@nestjs/common'
 import PasswordService from '../../services/password.service'
 
 @CommandHandler(SignUpCommand)

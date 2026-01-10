@@ -6,19 +6,30 @@ import envKeys from 'src/shared/consts/env-keys'
 
 @Injectable()
 class PasswordService {
-  secret: string
+
+  private readonly secret: Buffer
 
   constructor(
     private readonly configService: ConfigService,
   ) {
-    this.secret = configService.getOrThrow(envKeys.auth.password.secret)
+    this.secret = Buffer.from(configService.getOrThrow(envKeys.auth.password.secret))
   }
 
   hashPassword(plainPassword: string): Promise<string> {
     return argon2.hash(
       plainPassword,
       {
-        secret: Buffer.from(this.secret),
+        secret: this.secret,
+      },
+    )
+  }
+
+  verify(hash: string, plainPassword: string): Promise<boolean> {
+    return argon2.verify(
+      hash,
+      plainPassword,
+      {
+        secret: this.secret,
       },
     )
   }
