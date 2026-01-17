@@ -11,6 +11,7 @@ import SignUpCommand from '../cqrs/commands/sign-up.command'
 import LoginRequestDto from '../dto/request/login.request-dto'
 import LoginResponseDto from '../dto/response/login.response-dto'
 import LoginCommand from '../cqrs/commands/login.command'
+import Public from 'src/shared/decorators/public.decorator'
 
 @Controller()
 class AuthController {
@@ -19,6 +20,7 @@ class AuthController {
   ) {}
 
   @Post('sign-up')
+  @Public()
   async signUp(@Body() dto: SignUpRequestDto): Promise<SignUpResponseDto> {
     const { data } = await this.commandBus.execute(
       new SignUpCommand({
@@ -32,6 +34,7 @@ class AuthController {
   }
 
   @Post('login')
+  @Public()
   async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
     const { data } = await this.commandBus.execute(
       new LoginCommand({

@@ -19,6 +19,9 @@ import LoginCommandHandler from './cqrs/command-handlers/login.command-handler'
     SignUpCommandHandler,
     LoginCommandHandler,
   ],
+  exports: [
+    AccessTokenService,
+  ],
 })
 class AuthModule {}
 

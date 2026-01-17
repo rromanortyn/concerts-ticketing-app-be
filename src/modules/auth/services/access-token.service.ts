@@ -28,6 +28,15 @@ class AccessTokenService {
       },
     )
   }
+
+  verify(token: string): Promise<JwtPayload> {
+    return this.jwtService.verifyAsync(
+      token,
+      {
+        secret: this.secret,
+      },
+    )
+  }
 }
 
 export default AccessTokenService
