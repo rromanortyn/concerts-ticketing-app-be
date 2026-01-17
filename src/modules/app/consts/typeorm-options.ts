@@ -3,6 +3,7 @@ import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm'
 
 import UserEntity from 'src/data/entities/user.entity'
 import envKeys from 'src/shared/consts/env-keys'
+import TypeOrmLogger from './typeorm-logger'
 
 const typeormOptions: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -18,6 +19,7 @@ const typeormOptions: TypeOrmModuleAsyncOptions = {
       UserEntity,
     ],
     logging: true,
+    logger: new TypeOrmLogger(),
     extra: {
       max: 50,
     },
