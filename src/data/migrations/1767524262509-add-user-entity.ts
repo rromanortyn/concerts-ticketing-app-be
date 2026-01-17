@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm'
 
 class AddUserEntity1767524262509 implements MigrationInterface {
   name = 'AddUserEntity1767524262509'

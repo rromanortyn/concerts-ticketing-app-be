@@ -7,6 +7,7 @@ import validationPipeConfig from './modules/app/consts/validation-pipe-config'
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule)
   app.useGlobalPipes(new ValidationPipe(validationPipeConfig))
+  app.useGlobalGuards()
 
   const port = process.env.PORT ?? 4000
 

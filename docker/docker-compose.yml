@@ -24,18 +24,15 @@ services:
       context: ..
       dockerfile: docker/server/Dockerfile
     container_name: server
+    environment: 
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
     ports:
       - 4000:4000
     depends_on:
       postgres:
         condition: service_healthy
-      # opensearch-node1:
-      #   condition: service_healthy
-      # opensearch-node2:
-      #   condition: service_healthy
-      # migrations:
-      #   condition: service_completed_successfully
-    command: npm run start:prod
+    entrypoint: ["/bin/sh", "-c", "/usr/local/bin/entrypoint.sh"]
 
 volumes:
   db-data:

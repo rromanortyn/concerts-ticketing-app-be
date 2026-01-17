@@ -13,8 +13,8 @@ dotenv.config({
 
 const dataSource = new DataSource({
   type: 'postgres',
-  host: process.env[envKeys.database.hostOutside],
-  port: parseInt(process.env[envKeys.database.portOutside]!),
+  host: process.env[envKeys.database.host],
+  port: parseInt(process.env[envKeys.database.port]!),
   username: process.env[envKeys.database.username],
   password: process.env[envKeys.database.password],
   database: process.env[envKeys.database.name],
