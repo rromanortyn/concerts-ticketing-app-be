@@ -19,6 +19,7 @@ import jwtOptions from './consts/jwt-options'
 import LoadCurrentUserMiddleware from './middlewares/load-current-user.middleware'
 import UserEntity from 'src/data/entities/user.entity'
 import AuthGuard from 'src/shared/guards/auth.guard'
+import EventModule from '../event/event.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import AuthGuard from 'src/shared/guards/auth.guard'
     RouterModule.register(routes),
     AuthModule,
     MeModule,
+    EventModule,
   ],
   providers: [
     {
