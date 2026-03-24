@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import EventController from './controllers/event.controller'
 import AddEventCommandHandler from './cqrs/command-handlers/add-event.command-handler'
 import EventEntity from 'src/data/entities/event.entity'
+import GetEventsQueryHandler from './cqrs/query-handlers/get-events.query-handler'
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import EventEntity from 'src/data/entities/event.entity'
   ],
   providers: [
     AddEventCommandHandler,
+    GetEventsQueryHandler,
   ],
 })
 class EventModule {}
