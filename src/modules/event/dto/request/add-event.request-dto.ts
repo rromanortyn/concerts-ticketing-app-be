@@ -1,4 +1,8 @@
-import { IsString, MaxLength, MinLength } from 'class-validator'
+import {
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator'
 
 class AddEventRequestDto {
   @MinLength(1, { message: `"title" should not be a non-empty string` })

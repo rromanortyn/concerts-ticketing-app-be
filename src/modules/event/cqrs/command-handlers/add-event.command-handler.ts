@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { Repository } from 'typeorm'
-import { UnauthorizedException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import AddEventCommand from '../commands/add-event.command'

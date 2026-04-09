@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common'
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -5,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventByIdQuery from '../queries/get-event-by-id.query'
 import GetEventByIdQueryOutput from 'src/modules/event/types/classes/query-outputs/get-event-by-id.query-output'
-import { NotFoundException } from '@nestjs/common'
 
 @QueryHandler(GetEventByIdQuery)
 class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
