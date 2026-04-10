@@ -29,7 +29,7 @@ class EventController {
     const { data } = await this.commandBus.execute(
       new AddEventCommand(dto),
     )
-
+console.log(dto)
     return data
   }
 

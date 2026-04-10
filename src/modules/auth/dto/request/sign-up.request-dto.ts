@@ -5,7 +5,7 @@ import {
 } from 'class-validator'
 
 class SignUpRequestDto {
-  @MinLength(1, { message: `"fullName" should not be a non-empty string` })
+  @MinLength(1, { message: `"fullName" should be a non-empty string` })
   @IsString({ message: `"fullName" should be a string` })
   fullName: string
 
@@ -17,9 +17,7 @@ class SignUpRequestDto {
   )
   email: string
 
-  @MinLength(6, {
-    message: `"password" should be at least 6 characters long`
-  })
+  @MinLength(6, { message: `"password" should be at least 6 characters long` })
   @IsString({ message: `"password" should be a string` })
   password: string
 }
