@@ -6,6 +6,7 @@ import {
   Post,
 } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
+import { FormDataRequest } from 'nestjs-form-data'
 
 import AddEventRequestDto from '../dto/request/add-event.request-dto'
 import AddEventCommand from '../cqrs/commands/add-event.command'
@@ -23,6 +24,7 @@ class EventController {
   ) {}
 
   @Post()
+  @FormDataRequest()
   async addEvent(@Body() dto: AddEventRequestDto): Promise<AddEventResponseDto> {
     const { data } = await this.commandBus.execute(
       new AddEventCommand(dto),
