@@ -22,6 +22,7 @@ import UserEntity from 'src/data/entities/user.entity'
 import AuthGuard from 'src/shared/guards/auth.guard'
 import EventModule from '../event/event.module'
 import nestjsFormDataConfig from './consts/nestjs-form-data-config'
+import UploadModule from 'src/libs/upload/upload.module'
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import nestjsFormDataConfig from './consts/nestjs-form-data-config'
     CqrsModule.forRoot(),
     RouterModule.register(routes),
     NestjsFormDataModule.config(nestjsFormDataConfig),
+    UploadModule,
     AuthModule,
     MeModule,
     EventModule,

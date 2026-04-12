@@ -13,6 +13,12 @@ class EventEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 200 })
   description: string
+
+  @Column({ type: 'timestamptz' })
+  startDate: Date
+
+  @Column({ type: 'timestamptz' })
+  endDate: Date
 }
 
 export default EventEntity
