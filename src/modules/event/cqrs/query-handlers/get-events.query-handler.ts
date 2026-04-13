@@ -14,7 +14,21 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
   ) {}
 
   async execute(query: GetEventsQuery): Promise<GetEventsQueryOutput> {
-    const events = await this.eventRepository.find()
+    const events = await this.eventRepository.find({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        image: {
+          key: true,
+        },
+      },
+      relations: {
+        image: true,
+      },
+    })
 
     return {
       data: events,
