@@ -1,11 +1,11 @@
 import { Expose, Type } from 'class-transformer'
 
-class ItemImage {
+class EventImageResponseDto {
   @Expose()
   key: string
 }
 
-class GetEventsItemResponseDto {
+class GetEventByIdResponseDto {
   @Expose()
   id: number
 
@@ -22,8 +22,8 @@ class GetEventsItemResponseDto {
   endDate: Date
   
   @Expose()
-  @Type(() => ItemImage)
-  image: ItemImage
+  @Type(() => EventImageResponseDto)
+  image: EventImageResponseDto
 }
 
-export default GetEventsItemResponseDto
+export default GetEventByIdResponseDto

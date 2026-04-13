@@ -1,11 +1,14 @@
 import ActionOutput from 'src/shared/types/classes/action.output'
 
-class Data  {
+class Data {
   id: number
   title: string
   description: string
-  createdAt: Date
-  updatedAt: Date
+  startDate: Date
+  endDate: Date
+  image: {
+    key: string,
+  }
 }
 
 class AddEventCommandOutput extends ActionOutput<Data, void> {}

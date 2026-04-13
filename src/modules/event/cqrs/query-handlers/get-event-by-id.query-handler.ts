@@ -18,6 +18,19 @@ class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
     const { id } = query.input
     
     const event = await this.eventRepository.findOne({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        image: {
+          key: true,
+        },
+      },
+      relations: {
+        image: true,
+      },
       where: {
         id,
       },
