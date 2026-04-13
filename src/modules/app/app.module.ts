@@ -9,6 +9,7 @@ import { CqrsModule } from '@nestjs/cqrs'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
+import { NestjsFormDataModule } from 'nestjs-form-data'
 
 import routes from './consts/routes'
 import AuthModule from '../auth/auth.module'
@@ -19,6 +20,9 @@ import jwtOptions from './consts/jwt-options'
 import LoadCurrentUserMiddleware from './middlewares/load-current-user.middleware'
 import UserEntity from 'src/data/entities/user.entity'
 import AuthGuard from 'src/shared/guards/auth.guard'
+import EventModule from '../event/event.module'
+import nestjsFormDataConfig from './consts/nestjs-form-data-config'
+import UploadModule from 'src/libs/upload/upload.module'
 
 @Module({
   imports: [
@@ -28,8 +32,11 @@ import AuthGuard from 'src/shared/guards/auth.guard'
     JwtModule.register(jwtOptions),
     CqrsModule.forRoot(),
     RouterModule.register(routes),
+    NestjsFormDataModule.config(nestjsFormDataConfig),
+    UploadModule,
     AuthModule,
     MeModule,
+    EventModule,
   ],
   providers: [
     {
