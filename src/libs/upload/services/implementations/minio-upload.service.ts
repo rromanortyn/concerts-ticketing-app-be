@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { MemoryStoredFile } from 'nestjs-form-data'
 import * as Minio from 'minio'
 
 import UploadService from '../interfaces/upload.service'
+import UploadFileInput from '../../types/interfaces/service-inputs/upload-file.input'
+import UploadFileOutput from '../../types/interfaces/service-outputs/upload-file.output'
 
 @Injectable()
 class MinioUploadService implements UploadService {
@@ -24,16 +25,37 @@ class MinioUploadService implements UploadService {
     this.bucketName = this.configService.getOrThrow('MINIO_BUCKET_NAME')
   }
 
-  async uploadFile(file: MemoryStoredFile): Promise<void> {
+  async uploadFile(input: UploadFileInput): Promise<UploadFileOutput> {
+    const {
+      file,
+      directory,
+      uuid,
+    } = input
+
+    const {
+      mimetype,
+      buffer,
+      size,
+    } = file
+
+    const extension = mimetype.split('/')[1]
+    const key = `${directory}/${uuid}.${extension}`
+
     await this.minioClient.putObject(
-      this.bucketName, 
-      file.originalName, 
-      file.buffer,
-      file.size,
+      this.bucketName,
+      key,
+      buffer,
+      size,
       {
-        contentType: file.mimetype,
+        'Content-Type': mimetype,
       },
     )
+
+    return {
+      key,
+      mimeType: mimetype,
+      size,
+    }
   }
 }
 

@@ -5,6 +5,7 @@ import UserEntity from 'src/data/entities/user.entity'
 import envKeys from 'src/shared/consts/env-keys'
 import TypeOrmLogger from './typeorm-logger'
 import EventEntity from 'src/data/entities/event.entity'
+import FileEntity from 'src/data/entities/file.entity'
 
 const typeormOptions: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -19,6 +20,7 @@ const typeormOptions: TypeOrmModuleAsyncOptions = {
     entities: [
       UserEntity,
       EventEntity,
+      FileEntity,
     ],
     logging: true,
     logger: new TypeOrmLogger(),

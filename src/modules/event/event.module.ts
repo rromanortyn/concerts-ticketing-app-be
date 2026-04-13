@@ -6,11 +6,13 @@ import AddEventCommandHandler from './cqrs/command-handlers/add-event.command-ha
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQueryHandler from './cqrs/query-handlers/get-events.query-handler'
 import GetEventByIdQueryHandler from './cqrs/query-handlers/get-event-by-id.query-handler'
+import FileEntity from 'src/data/entities/file.entity'
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       EventEntity,
+      FileEntity,
     ]),
   ],
   controllers: [
