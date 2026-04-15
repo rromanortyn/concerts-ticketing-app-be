@@ -23,6 +23,7 @@ import AuthGuard from 'src/shared/guards/auth.guard'
 import EventModule from '../event/event.module'
 import nestjsFormDataConfig from './consts/nestjs-form-data-config'
 import UploadModule from 'src/libs/upload/upload.module'
+import GenreModule from '../genre/genre.module'
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import UploadModule from 'src/libs/upload/upload.module'
     AuthModule,
     MeModule,
     EventModule,
+    GenreModule,
   ],
   providers: [
     {
