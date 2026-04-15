@@ -5,6 +5,7 @@ import { DataSource } from 'typeorm'
 import UserEntity from 'src/data/entities/user.entity'
 import EventEntity from 'src/data/entities/event.entity'
 import FileEntity from 'src/data/entities/file.entity'
+import GenreEntity from 'src/data/entities/genre.entity'
 
 import envKeys from 'src/shared/consts/env-keys'
 import AddUserEntity1767524262509 from 'src/data/migrations/1767524262509-add-user-entity'
@@ -12,6 +13,8 @@ import AddEventEntity1774338558113 from 'src/data/migrations/1774338558113-add-e
 import AddBasicEventDates1775983995124 from 'src/data/migrations/1775983995124-add-basic-event-dates'
 import AddEventImage1776064997067 from 'src/data/migrations/1776064997067-add-event-image'
 import MakeEventImageNotNullable1776065620433 from 'src/data/migrations/1776065620433-make-event-image-not-nullable'
+import AddGenreEntity1776238984839 from 'src/data/migrations/1776238984839-add-genre-entity'
+import SeedGenres1776239333199 from 'src/data/migrations/1776239333199-seed-genres'
 
 const nodeEnv = process.env.NODE_ENV
 
@@ -30,6 +33,7 @@ const dataSource = new DataSource({
     UserEntity,
     EventEntity,
     FileEntity,
+    GenreEntity,
   ],
   migrations: [
     AddUserEntity1767524262509,
@@ -37,6 +41,8 @@ const dataSource = new DataSource({
     AddBasicEventDates1775983995124,
     AddEventImage1776064997067,
     MakeEventImageNotNullable1776065620433,
+    AddGenreEntity1776238984839,
+    SeedGenres1776239333199,
   ],
 })
 

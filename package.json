@@ -22,7 +22,8 @@
     "docker:down": "docker compose -f docker/docker-compose.yml down",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "typeorm:run-migrations": "cross-env NODE_ENV=docker npm run typeorm migration:run -- -d ./src/shared/consts/data-source.ts",
-    "typeorm:gen-migration": "cross-env NODE_ENV=migrations npm run typeorm -- -d ./src/shared/consts/data-source.ts migration:generate ./src/data/migrations/%npm_config_name%"
+    "typeorm:gen-migration": "cross-env NODE_ENV=migrations npm run typeorm -- -d ./src/shared/consts/data-source.ts migration:generate ./src/data/migrations/%npm_config_name%",
+    "typeorm:create-migration": "cross-env NODE_ENV=migrations npm run typeorm migration:create ./src/data/migrations/%npm_config_name%"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
