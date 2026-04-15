@@ -6,6 +6,7 @@ class Data {
   description: string
   createdAt: Date
   updatedAt: Date
+  genres: Array<{ name: string }>
 }
 
 class GetEventByIdQueryOutput extends ActionOutput<Data, void> {}
