@@ -13,6 +13,7 @@ import {
 
 import TransformIso8601String from 'src/shared/decorators/transform-iso-8601-string'
 import DateLaterThanField from 'src/shared/decorators/date-later-than-field'
+import TransformArrayOfIntegers from 'src/shared/decorators/transform-array-of-integers'
 
 class AddEventRequestDto {
   @MaxFileSize(5e6, { message: `"image" should not be larger than 5MB` })
@@ -43,6 +44,10 @@ class AddEventRequestDto {
   @DateLaterThanField('startDate', { message: '"endDate" should be after startDate' })
   @IsNotEmpty({ message: '"endDate" is required' })
   endDate: Date
+
+  @TransformArrayOfIntegers({ min: 1 })
+  @IsNotEmpty({ message: '"genresIds" is required' })
+  genresIds: number[]
 }
 
 export default AddEventRequestDto
