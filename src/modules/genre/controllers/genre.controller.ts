@@ -4,6 +4,7 @@ import { plainToInstance } from 'class-transformer'
 
 import GetGenresQuery from '../cqrs/queries/get-genres.query'
 import GetGenresItemResponseDto from '../dto/response/get-genres.response-dto'
+import Public from 'src/shared/decorators/public.decorator'
 
 @Controller()
 class GenreController {
@@ -12,6 +13,7 @@ class GenreController {
   ) {}
 
   @Get()
+  @Public()
   async getGenres(): Promise<GetGenresItemResponseDto[]> {
     const { data } = await this.queryBus.execute(
       new GetGenresQuery({}),
