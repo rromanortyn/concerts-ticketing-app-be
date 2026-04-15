@@ -6,6 +6,7 @@ class Item {
   description: string
   createdAt: Date
   updatedAt: Date
+  genres: Array<{ name: string }>
 }
 
 class Data extends Array<Item> {}

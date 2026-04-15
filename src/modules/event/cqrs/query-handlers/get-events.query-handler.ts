@@ -14,21 +14,22 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
   ) {}
 
   async execute(query: GetEventsQuery): Promise<GetEventsQueryOutput> {
-    const events = await this.eventRepository.find({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        startDate: true,
-        endDate: true,
-        image: {
-          key: true,
-        },
-      },
-      relations: {
-        image: true,
-      },
-    })
+    // This returns duplicate rows from 'genres' because of the join
+    // E.g., if an event has 3 genres, it will return 3 rows with the same event data
+    // TODO: Find events and then, fetch genres using the 'IN' operator separately
+    const events = await this.eventRepository.createQueryBuilder('event')
+      .leftJoinAndSelect('event.image', 'image')
+      .innerJoinAndSelect('event.genres', 'genres')
+      .select([
+        'event.id',
+        'event.title',
+        'event.description',
+        'event.startDate',
+        'event.endDate',
+        'image.key',
+        'genres.name',
+      ])
+      .getMany()
 
     return {
       data: events,
