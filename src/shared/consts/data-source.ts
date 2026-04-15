@@ -15,6 +15,7 @@ import AddEventImage1776064997067 from 'src/data/migrations/1776064997067-add-ev
 import MakeEventImageNotNullable1776065620433 from 'src/data/migrations/1776065620433-make-event-image-not-nullable'
 import AddGenreEntity1776238984839 from 'src/data/migrations/1776238984839-add-genre-entity'
 import SeedGenres1776239333199 from 'src/data/migrations/1776239333199-seed-genres'
+import AddEventGenresManyToMany1776244200074 from 'src/data/migrations/1776244200074-add-event-genres-many-to-many'
 
 const nodeEnv = process.env.NODE_ENV
 
@@ -43,6 +44,7 @@ const dataSource = new DataSource({
     MakeEventImageNotNullable1776065620433,
     AddGenreEntity1776238984839,
     SeedGenres1776239333199,
+    AddEventGenresManyToMany1776244200074,
   ],
 })
 

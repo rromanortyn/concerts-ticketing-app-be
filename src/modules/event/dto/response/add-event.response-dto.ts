@@ -5,6 +5,17 @@ class EventImageResponseDto {
   key: string
 }
 
+class EventGenreResponseDto {
+  @Expose()
+  id: number
+  
+  @Expose()
+  name: string
+  
+  @Expose()
+  slug: string
+}
+
 class AddEventResponseDto {
   @Expose()
   id: number
@@ -24,6 +35,10 @@ class AddEventResponseDto {
   @Expose()
   @Type(() => EventImageResponseDto)
   image: EventImageResponseDto
+
+  @Expose()
+  @Type(() => EventGenreResponseDto)
+  genres: EventGenreResponseDto[]
 }
 
 export default AddEventResponseDto

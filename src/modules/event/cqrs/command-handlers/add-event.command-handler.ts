@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
-import { Inject } from '@nestjs/common'
-import { DataSource } from 'typeorm'
+import { Inject, NotFoundException } from '@nestjs/common'
+import { DataSource, In } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 
 import AddEventCommand from '../commands/add-event.command'
@@ -9,6 +9,8 @@ import EventEntity from 'src/data/entities/event.entity'
 import type UploadService from 'src/libs/upload/services/interfaces/upload.service'
 import uploadProviderNames from 'src/libs/upload/consts/provider-names'
 import FileEntity from 'src/data/entities/file.entity'
+import GenreEntity from 'src/data/entities/genre.entity'
+import ErrorCode from 'src/shared/types/enums/error-code.enum'
 
 @CommandHandler(AddEventCommand)
 class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
@@ -25,6 +27,7 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
       description,
       startDate,
       endDate,
+      genresIds,
     } = command.input
     
     const uploadedImage = await this.uploadService.uploadFile({
@@ -34,6 +37,27 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
     })
 
     const newEvent = await this.dataSource.transaction(async (manager) => {
+      const existingGenres = await manager.find(
+        GenreEntity,
+        {
+          where: {
+            id: In(genresIds),
+          },
+        },
+      )
+
+      if (existingGenres.length !== genresIds.length) {
+        const existingGenreIds = existingGenres.map((genre) => genre.id)
+        const missingGenreIds = genresIds.filter((id) => !existingGenreIds.includes(id))
+
+        const formattedMissingGenreIds = `[${missingGenreIds.join(', ')}]`
+
+        throw new NotFoundException({
+          code: ErrorCode.GenresNotFound,
+          message: `Some genres do not exist. The following is the array of missing genre IDs: ${formattedMissingGenreIds}`,
+        })
+      }
+      
       const imageFileEntity = await manager.save(
         FileEntity,
         {
@@ -52,6 +76,7 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
           startDate,
           endDate,
           image: imageFileEntity,
+          genres: existingGenres,
         },
       )
 

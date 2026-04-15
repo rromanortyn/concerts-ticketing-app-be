@@ -21,6 +21,7 @@ enum ErrorCode {
   EntityNotFound = 'ENTITY_NOT_FOUND',
   UserNotAuthenticated = 'USER_NOT_AUTHENTICATED',
   UsernameAlreadyExists = 'USERNAME_ALREADY_EXISTS',
+  GenresNotFound = 'GENRES_NOT_FOUND',
 }
 
 export default ErrorCode

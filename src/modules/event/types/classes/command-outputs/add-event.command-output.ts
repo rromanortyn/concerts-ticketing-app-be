@@ -9,6 +9,11 @@ class Data {
   image: {
     key: string,
   }
+  genres: {
+    id: number,
+    name: string,
+    slug: string,
+  }[]
 }
 
 class AddEventCommandOutput extends ActionOutput<Data, void> {}
