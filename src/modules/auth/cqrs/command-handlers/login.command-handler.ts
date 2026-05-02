@@ -48,6 +48,7 @@ class LoginCommandHandler implements ICommandHandler<LoginCommand> {
 
     const accessToken = await this.accessTokenService.sign({
       id: userByEmail.id,
+      role: userByEmail.role,
     })
 
     return {

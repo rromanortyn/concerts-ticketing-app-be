@@ -8,6 +8,7 @@ import SignUpCommandOutput from '../../types/classes/command-outputs/sign-up.com
 import AccessTokenService from '../../services/access-token.service'
 import UserEntity from 'src/data/entities/user.entity'
 import PasswordService from '../../services/password.service'
+import ErrorCode from 'src/shared/types/enums/error-code.enum'
 
 @CommandHandler(SignUpCommand)
 class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
@@ -33,13 +34,14 @@ class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
 
       accessToken = await this.accessTokenService.sign({
         id: newUser.id,
+        role: newUser.role,
       })
     }
 
     catch (error) {
       if (error.code === '23505') {
         throw new ConflictException({
-          code: 'USER_ALREADY_EXISTS',
+          code: ErrorCode.UserAlreadyExists,
           message: 'A user with the specified email already exists.',
         })
       }

@@ -6,6 +6,7 @@ import UserEntity from 'src/data/entities/user.entity'
 import EventEntity from 'src/data/entities/event.entity'
 import FileEntity from 'src/data/entities/file.entity'
 import GenreEntity from 'src/data/entities/genre.entity'
+import CityEntity from 'src/data/entities/city.entity'
 
 import envKeys from 'src/shared/consts/env-keys'
 import AddUserEntity1767524262509 from 'src/data/migrations/1767524262509-add-user-entity'
@@ -16,6 +17,8 @@ import MakeEventImageNotNullable1776065620433 from 'src/data/migrations/17760656
 import AddGenreEntity1776238984839 from 'src/data/migrations/1776238984839-add-genre-entity'
 import SeedGenres1776239333199 from 'src/data/migrations/1776239333199-seed-genres'
 import AddEventGenresManyToMany1776244200074 from 'src/data/migrations/1776244200074-add-event-genres-many-to-many'
+import AddCityEntity1777759804533 from 'src/data/migrations/1777759804533-add-city-entity'
+import AddUserRole1777761528457 from 'src/data/migrations/1777761528457-add-user-role'
 
 const nodeEnv = process.env.NODE_ENV
 
@@ -35,6 +38,7 @@ const dataSource = new DataSource({
     EventEntity,
     FileEntity,
     GenreEntity,
+    CityEntity,
   ],
   migrations: [
     AddUserEntity1767524262509,
@@ -45,6 +49,8 @@ const dataSource = new DataSource({
     AddGenreEntity1776238984839,
     SeedGenres1776239333199,
     AddEventGenresManyToMany1776244200074,
+    AddCityEntity1777759804533,
+    AddUserRole1777761528457,
   ],
 })
 

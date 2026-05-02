@@ -24,6 +24,7 @@ import EventModule from '../event/event.module'
 import nestjsFormDataConfig from './consts/nestjs-form-data-config'
 import UploadModule from 'src/libs/upload/upload.module'
 import GenreModule from '../genre/genre.module'
+import CityModule from '../city/city.module'
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import GenreModule from '../genre/genre.module'
     MeModule,
     EventModule,
     GenreModule,
+    CityModule,
   ],
   providers: [
     {

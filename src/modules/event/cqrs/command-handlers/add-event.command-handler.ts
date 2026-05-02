@@ -54,7 +54,7 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
 
         throw new NotFoundException({
           code: ErrorCode.GenresNotFound,
-          message: `Some genres do not exist. The following is the array of missing genre IDs: ${formattedMissingGenreIds}`,
+          message: `Some genres do not exist. The following is the array of the missing genre IDs: ${formattedMissingGenreIds}`,
         })
       }
       

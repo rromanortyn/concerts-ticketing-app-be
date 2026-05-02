@@ -1,6 +1,6 @@
 enum ErrorCode {
   ValidationError = 'VALIDATION_ERROR',
-  EmailAlreadyExists = 'EMAIL_ALREADY_EXISTS',
+  UserAlreadyExists = 'USER_ALREADY_EXISTS',
   WrongEmailOrPassword = 'WRONG_EMAIL_OR_PASSWORD',
   UserNotFound = 'USER_NOT_FOUND',
   InternalServerError = 'INTERNAL_SERVER_ERROR',

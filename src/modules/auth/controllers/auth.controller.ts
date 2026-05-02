@@ -27,6 +27,7 @@ class AuthController {
         email: dto.email,
         fullName: dto.fullName,
         password: dto.password,
+        role: dto.role,
       }),
     )
 

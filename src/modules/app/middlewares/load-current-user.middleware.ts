@@ -31,6 +31,7 @@ class LoadCurrentUserMiddleware implements NestMiddleware {
             'id',
             'fullName',
             'email',
+            'role',
           ],
         })
 

@@ -4,6 +4,7 @@ enum TableName {
   Files = 'files',
   Genres = 'genres',
   EventGenres = 'event-genres',
+  Cities = 'cities',
 }
 
 export default TableName

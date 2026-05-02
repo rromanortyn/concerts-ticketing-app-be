@@ -11,14 +11,26 @@ class AuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest<AppRequest>()
+
     const isPublic = this.reflector.get<boolean>(
       MetadataKey.IsPublic,
       context.getHandler(),
     )
+    const roles = this.reflector.get<string[]>(
+      MetadataKey.Roles,
+      context.getHandler(),
+    )
+
     const { user, authError } = request
 
     if (isPublic) {
       return true
+    }
+
+    if (roles && roles.length > 0) {
+      if (!user || !roles.includes(user.role)) {
+        return false
+      }
     }
 
     if (authError) {
