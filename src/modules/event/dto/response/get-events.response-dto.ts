@@ -35,4 +35,13 @@ class GetEventsItemResponseDto {
   genres: ItemGenre[]
 }
 
-export default GetEventsItemResponseDto
+class GetEventsResponseDto {
+  @Expose()
+  @Type(() => GetEventsItemResponseDto)
+  items: GetEventsItemResponseDto[]
+  
+  @Expose()
+  hasMore: boolean
+}
+
+export default GetEventsResponseDto

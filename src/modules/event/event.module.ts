@@ -7,11 +7,15 @@ import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQueryHandler from './cqrs/query-handlers/get-events.query-handler'
 import GetEventByIdQueryHandler from './cqrs/query-handlers/get-event-by-id.query-handler'
 import FileEntity from 'src/data/entities/file.entity'
+import GenreEntity from 'src/data/entities/genre.entity'
+import EventGenreEntity from 'src/data/entities/event-genre.entity'
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       EventEntity,
+      GenreEntity,
+      EventGenreEntity,
       FileEntity,
     ]),
   ],

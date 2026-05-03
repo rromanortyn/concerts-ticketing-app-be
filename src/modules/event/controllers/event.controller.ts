@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
 } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 import { FormDataRequest } from 'nestjs-form-data'
@@ -16,7 +17,8 @@ import GetEventsQuery from '../cqrs/queries/get-events.query'
 import GetEventByIdQuery from '../cqrs/queries/get-event-by-id.query'
 import GetEventByIdResponseDto from '../dto/response/get-event-by-id.response-dto'
 import IntParamPipe from 'src/shared/pipes/int-param.pipe'
-import GetEventsItemResponseDto from '../dto/response/get-events.response-dto'
+import GetEventsResponseDto from '../dto/response/get-events.response-dto'
+import GetEventsRequestDto from '../dto/request/get-events.request-dto'
 
 @Controller()
 class EventController {
@@ -40,13 +42,13 @@ class EventController {
   }
 
   @Get()
-  async getEvents(): Promise<GetEventsItemResponseDto[]> {
+  async getEvents(@Query() dto: GetEventsRequestDto): Promise<GetEventsResponseDto> {
     const { data } = await this.queryBus.execute(
-      new GetEventsQuery(),
+      new GetEventsQuery(dto),
     )
 
     return plainToInstance(
-      GetEventsItemResponseDto,
+      GetEventsResponseDto,
       data,
       { excludeExtraneousValues: true },
     )
@@ -56,7 +58,7 @@ class EventController {
   async getEventById(
     @Param('id', new IntParamPipe('id'))
     id: number,
-  ): Promise<GetEventsItemResponseDto> {
+  ): Promise<GetEventByIdResponseDto> {
     const { data } = await this.queryBus.execute(
       new GetEventByIdQuery({ id }),
     )

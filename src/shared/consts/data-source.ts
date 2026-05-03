@@ -8,6 +8,7 @@ import FileEntity from 'src/data/entities/file.entity'
 import GenreEntity from 'src/data/entities/genre.entity'
 import CityEntity from 'src/data/entities/city.entity'
 import VenueEntity from 'src/data/entities/venue.entity'
+import EventGenreEntity from 'src/data/entities/event-genre.entity'
 
 import envKeys from 'src/shared/consts/env-keys'
 import AddUserEntity1767524262509 from 'src/data/migrations/1767524262509-add-user-entity'
@@ -42,6 +43,7 @@ const dataSource = new DataSource({
     GenreEntity,
     CityEntity,
     VenueEntity,
+    EventGenreEntity,
   ],
   migrations: [
     AddUserEntity1767524262509,

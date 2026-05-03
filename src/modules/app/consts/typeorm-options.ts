@@ -9,6 +9,7 @@ import FileEntity from 'src/data/entities/file.entity'
 import GenreEntity from 'src/data/entities/genre.entity'
 import CityEntity from 'src/data/entities/city.entity'
 import VenueEntity from 'src/data/entities/venue.entity'
+import EventGenreEntity from 'src/data/entities/event-genre.entity'
 
 const typeormOptions: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -27,6 +28,7 @@ const typeormOptions: TypeOrmModuleAsyncOptions = {
       GenreEntity,
       CityEntity,
       VenueEntity,
+      EventGenreEntity,
     ],
     logging: true,
     logger: new TypeOrmLogger(),

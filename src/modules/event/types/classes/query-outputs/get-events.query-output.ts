@@ -9,7 +9,10 @@ class Item {
   genres: Array<{ name: string }>
 }
 
-class Data extends Array<Item> {}
+class Data {
+  items: Item[]
+  hasMore: boolean
+}
 
 class GetEventsQueryOutput extends ActionOutput<Data, void> {}
 
