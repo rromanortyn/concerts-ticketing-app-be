@@ -3,6 +3,7 @@ enum ErrorCode {
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
   WrongEmailOrPassword = 'WRONG_EMAIL_OR_PASSWORD',
   UserNotFound = 'USER_NOT_FOUND',
+  CityNotFound = 'CITY_NOT_FOUND',
   InternalServerError = 'INTERNAL_SERVER_ERROR',
   FileIsRequired = 'FILE_IS_REQUIRED',
   Forbidden = 'FORBIDDEN',
