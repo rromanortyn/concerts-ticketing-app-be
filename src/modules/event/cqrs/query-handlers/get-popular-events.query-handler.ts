@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
-import { In, Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
+import { In, Repository } from 'typeorm'
 
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQueryOutput from '../../types/classes/query-outputs/get-events.query-output'
@@ -46,10 +46,12 @@ class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuer
       },
       select: ['eventId', 'genreId'],
     })
+
+    const genresIds = [...new Set(eventGenres.map((eventGenre) => eventGenre.genreId))]
     
     const genres = await this.genreRepository.find({
       where: {
-        id: In(eventGenres.map((eventGenre) => eventGenre.genreId)),
+        id: In(genresIds),
       },
       // selecting id is required here because we need it to filter the genres
       select: ['id', 'name'],

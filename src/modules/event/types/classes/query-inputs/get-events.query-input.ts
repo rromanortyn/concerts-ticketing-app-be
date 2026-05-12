@@ -3,6 +3,10 @@ class GetEventsQueryInput {
   limit?: number
   cityId?: number
   genresIds?: number[]
+  dates?: {
+    from: Date
+    to: Date
+  }
 }
 
 export default GetEventsQueryInput

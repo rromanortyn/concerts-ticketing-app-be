@@ -1,23 +1,16 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
-import { In, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQuery from '../queries/get-events.query'
 import GetEventsQueryOutput from '../../types/classes/query-outputs/get-events.query-output'
-import GenreEntity from 'src/data/entities/genre.entity'
-import EventGenreEntity from 'src/data/entities/event-genre.entity'
-import GetGenresQueryOutput from 'src/modules/genre/types/classes/query-outputs/get-genres.query-output'
 
 @QueryHandler(GetEventsQuery)
 class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
-    @InjectRepository(GenreEntity)
-    private readonly genreRepository: Repository<GenreEntity>,
-    @InjectRepository(EventGenreEntity)
-    private readonly eventGenreRepository: Repository<EventGenreEntity>,
   ) {}
 
   async execute(query: GetEventsQuery): Promise<GetEventsQueryOutput> {
@@ -26,74 +19,49 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
       limit = 10,
       cityId,
       genresIds,
+      dates,
     } = query.input
 
-    // const eventGenresByIds = await this.eventGenreRepository.find({
-    //   where: {
-    //     genreId: In(genresIds),
-    //   },
-    //   select: ['eventId', 'genreId'],
-    // })
-
-    const cityCondition = cityId ? {
-      city: {
-        id: cityId
-      },
-    } : undefined
-
-    const conditions = [cityCondition]
-    const where = conditions
-      .filter((condition) => condition !== undefined)
-      // reduce is required here because otherwise the query works as OR
-      .reduce((acc, condition) => ({ ...acc, ...condition }), {})
-
-    const events = await this.eventRepository.createQueryBuilder('event')
+    const eventsQueryBuilder = this.eventRepository.createQueryBuilder('event')
+      .innerJoin('event-genres', 'event-genres', 'event-genres.eventId = event.id')
       .leftJoinAndSelect('event.image', 'image')
       .leftJoinAndSelect('event.city', 'city')
+      .leftJoinAndSelect('event.venue', 'venue')
       .select([
         'event.id',
         'event.title',
         'event.description',
         'event.startDate',
         'event.endDate',
+        'image.id',
         'image.key',
+        'city.id',
+        'city.name',
+        'venue.id',
+        'venue.name',
       ])
-      .where(where)
+
+    if (cityId) {
+      eventsQueryBuilder.andWhere('event.cityId = :cityId', { cityId })
+    }
+
+    if (genresIds && genresIds.length > 0) {
+      eventsQueryBuilder.andWhere('event-genres.genreId IN (:...genresIds)', { genresIds })
+    }
+
+    if (dates) {
+      eventsQueryBuilder.andWhere('event.startDate >= :from', { from: dates.from })
+      eventsQueryBuilder.andWhere('event.endDate <= :to', { to: dates.to })
+    }
+
+    const events = await eventsQueryBuilder
       .skip(skip)
-      .limit(limit)
+      .take(limit)
       .getMany()
-
-    const eventGenres = await this.eventGenreRepository.find({
-      where: {
-        eventId: In(events.map((event) => event.id)),
-      },
-      select: ['eventId', 'genreId'],
-    })
-
-    const genres = await this.genreRepository.find({
-      where: {
-        id: In(eventGenres.map((eventGenre) => eventGenre.genreId)),
-      },
-      // selecting id is required here because we need it to filter the genres
-      select: ['id', 'name'],
-    })
-
-    const eventsIds = [...new Set(eventGenres.map((eventGenre) => eventGenre.eventId))]
-
-    const eventsWithGenres = eventsIds
-      .map((eventId) => ({
-        // find the event by id
-        ...events.find((event) => event.id === eventId)!,
-        genres: eventGenres
-          // find the genres for this event
-          .filter((eventGenre) => eventGenre.eventId === eventId)
-          // find the genre entity for each genre id
-          .map((eventGenre) => genres.find((genre) => genre.id === eventGenre.genreId)!),
-      }))
 
     return {
       data: {
-        items: eventsWithGenres,
+        items: events,
         hasMore: true,
       },
     }
