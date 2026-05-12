@@ -16,6 +16,14 @@ class EventGenreResponseDto {
   slug: string
 }
 
+class EventVenueResponseDto {
+  @Expose()
+  id: number
+  
+  @Expose()
+  name: string
+}
+
 class AddEventResponseDto {
   @Expose()
   id: number
@@ -39,6 +47,10 @@ class AddEventResponseDto {
   @Expose()
   @Type(() => EventGenreResponseDto)
   genres: EventGenreResponseDto[]
+
+  @Expose()
+  @Type(() => EventVenueResponseDto)
+  venue: EventVenueResponseDto
 }
 
 export default AddEventResponseDto

@@ -7,6 +7,7 @@ class AddEventCommandInput {
   startDate: Date
   endDate: Date
   genresIds: number[]
+  venueId: number
 }
 
 export default AddEventCommandInput

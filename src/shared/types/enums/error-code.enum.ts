@@ -23,6 +23,7 @@ enum ErrorCode {
   UserNotAuthenticated = 'USER_NOT_AUTHENTICATED',
   UsernameAlreadyExists = 'USERNAME_ALREADY_EXISTS',
   GenresNotFound = 'GENRES_NOT_FOUND',
+  VenueNotFound = 'VENUE_NOT_FOUND',
 }
 
 export default ErrorCode

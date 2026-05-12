@@ -14,6 +14,10 @@ class Data {
     name: string,
     slug: string,
   }[]
+  venue: {
+    id: number,
+    name: string,
+  }
 }
 
 class AddEventCommandOutput extends ActionOutput<Data, void> {}

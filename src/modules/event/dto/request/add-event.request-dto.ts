@@ -3,6 +3,8 @@ import {
   MaxLength,
   MinLength,
   IsNotEmpty,
+  Min,
+  IsInt,
 } from 'class-validator'
 import {
   HasMimeType,
@@ -14,6 +16,7 @@ import {
 import TransformIso8601String from 'src/shared/decorators/transform-iso-8601-string'
 import DateLaterThanField from 'src/shared/decorators/date-later-than-field'
 import TransformArrayOfIntegers from 'src/shared/decorators/transform-array-of-integers'
+import TransformInteger from 'src/shared/decorators/transform-intetger.decorator'
 
 class AddEventRequestDto {
   @MaxFileSize(5e6, { message: `"image" should not be larger than 5MB` })
@@ -48,6 +51,10 @@ class AddEventRequestDto {
   @TransformArrayOfIntegers({ min: 1 })
   @IsNotEmpty({ message: '"genresIds" is required' })
   genresIds: number[]
+
+  @TransformInteger()
+  @Min(1, { message: `"venueId" should be at least 1` })
+  venueId: number
 }
 
 export default AddEventRequestDto

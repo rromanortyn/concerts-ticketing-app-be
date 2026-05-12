@@ -3,14 +3,13 @@ import { In, Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import EventEntity from 'src/data/entities/event.entity'
-import GetEventsQuery from '../queries/get-events.query'
 import GetEventsQueryOutput from '../../types/classes/query-outputs/get-events.query-output'
 import GenreEntity from 'src/data/entities/genre.entity'
 import EventGenreEntity from 'src/data/entities/event-genre.entity'
-import GetGenresQueryOutput from 'src/modules/genre/types/classes/query-outputs/get-genres.query-output'
+import GetPopularEventsQuery from '../queries/get-popular-events.query'
 
-@QueryHandler(GetEventsQuery)
-class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
+@QueryHandler(GetPopularEventsQuery)
+class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuery> {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
@@ -20,36 +19,13 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
     private readonly eventGenreRepository: Repository<EventGenreEntity>,
   ) {}
 
-  async execute(query: GetEventsQuery): Promise<GetEventsQueryOutput> {
-    const {
-      skip,
-      limit = 10,
-      cityId,
-      genresIds,
-    } = query.input
-
-    // const eventGenresByIds = await this.eventGenreRepository.find({
-    //   where: {
-    //     genreId: In(genresIds),
-    //   },
-    //   select: ['eventId', 'genreId'],
-    // })
-
-    const cityCondition = cityId ? {
-      city: {
-        id: cityId
-      },
-    } : undefined
-
-    const conditions = [cityCondition]
-    const where = conditions
-      .filter((condition) => condition !== undefined)
-      // reduce is required here because otherwise the query works as OR
-      .reduce((acc, condition) => ({ ...acc, ...condition }), {})
+  async execute(query: GetPopularEventsQuery): Promise<GetEventsQueryOutput> {
+    const { limit = 10 } = query.input
 
     const events = await this.eventRepository.createQueryBuilder('event')
       .leftJoinAndSelect('event.image', 'image')
       .leftJoinAndSelect('event.city', 'city')
+      .leftJoinAndSelect('event.venue', 'venue')
       .select([
         'event.id',
         'event.title',
@@ -57,19 +33,20 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
         'event.startDate',
         'event.endDate',
         'image.key',
+        'city.name',
+        'venue.name',
       ])
-      .where(where)
-      .skip(skip)
+      .skip(0)
       .limit(limit)
       .getMany()
-
+    
     const eventGenres = await this.eventGenreRepository.find({
       where: {
         eventId: In(events.map((event) => event.id)),
       },
       select: ['eventId', 'genreId'],
     })
-
+    
     const genres = await this.genreRepository.find({
       where: {
         id: In(eventGenres.map((eventGenre) => eventGenre.genreId)),
@@ -77,9 +54,9 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
       // selecting id is required here because we need it to filter the genres
       select: ['id', 'name'],
     })
-
+    
     const eventsIds = [...new Set(eventGenres.map((eventGenre) => eventGenre.eventId))]
-
+    
     const eventsWithGenres = eventsIds
       .map((eventId) => ({
         // find the event by id
@@ -94,10 +71,10 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
     return {
       data: {
         items: eventsWithGenres,
-        hasMore: true,
+        hasMore: false,
       },
     }
   }
 }
 
-export default GetEventsQueryHandler
+export default GetPopularEventsQueryHandler

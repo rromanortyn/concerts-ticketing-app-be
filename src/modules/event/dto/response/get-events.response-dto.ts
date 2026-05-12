@@ -10,6 +10,16 @@ class ItemGenre {
   name: string
 }
 
+class ItemCity {
+  @Expose()
+  name: string
+}
+
+class ItemVenue {
+  @Expose()
+  name: string
+}
+
 class GetEventsItemResponseDto {
   @Expose()
   id: number
@@ -33,6 +43,14 @@ class GetEventsItemResponseDto {
   @Expose()
   @Type(() => ItemGenre)
   genres: ItemGenre[]
+  
+  @Expose()
+  @Type(() => ItemCity)
+  city: ItemCity
+  
+  @Expose()
+  @Type(() => ItemVenue)
+  venue: ItemVenue
 }
 
 class GetEventsResponseDto {

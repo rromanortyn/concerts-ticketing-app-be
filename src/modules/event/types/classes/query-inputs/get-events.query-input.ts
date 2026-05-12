@@ -1,6 +1,8 @@
 class GetEventsQueryInput {
   skip: number
-  limit: number
+  limit?: number
+  cityId?: number
+  genresIds?: number[]
 }
 
 export default GetEventsQueryInput

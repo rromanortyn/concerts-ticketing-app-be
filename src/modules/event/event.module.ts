@@ -6,9 +6,11 @@ import AddEventCommandHandler from './cqrs/command-handlers/add-event.command-ha
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQueryHandler from './cqrs/query-handlers/get-events.query-handler'
 import GetEventByIdQueryHandler from './cqrs/query-handlers/get-event-by-id.query-handler'
+import GetPopularEventsQueryHandler from './cqrs/query-handlers/get-popular-events.query-handler'
 import FileEntity from 'src/data/entities/file.entity'
 import GenreEntity from 'src/data/entities/genre.entity'
 import EventGenreEntity from 'src/data/entities/event-genre.entity'
+import VenueEntity from 'src/data/entities/venue.entity'
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import EventGenreEntity from 'src/data/entities/event-genre.entity'
       GenreEntity,
       EventGenreEntity,
       FileEntity,
+      VenueEntity,
     ]),
   ],
   controllers: [
@@ -25,6 +28,7 @@ import EventGenreEntity from 'src/data/entities/event-genre.entity'
   providers: [
     AddEventCommandHandler,
     GetEventsQueryHandler,
+    GetPopularEventsQueryHandler,
     GetEventByIdQueryHandler,
   ],
 })

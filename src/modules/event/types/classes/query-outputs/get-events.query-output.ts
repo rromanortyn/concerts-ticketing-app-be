@@ -7,6 +7,8 @@ class Item {
   createdAt: Date
   updatedAt: Date
   genres: Array<{ name: string }>
+  city: { name: string }
+  venue: { name: string }
 }
 
 class Data {

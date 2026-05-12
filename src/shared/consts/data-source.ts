@@ -22,6 +22,8 @@ import AddEventGenresManyToMany1776244200074 from 'src/data/migrations/177624420
 import AddCityEntity1777759804533 from 'src/data/migrations/1777759804533-add-city-entity'
 import AddUserRole1777761528457 from 'src/data/migrations/1777761528457-add-user-role'
 import AddVenueEntity1777804228297 from 'src/data/migrations/1777804228297-add-venue-entity'
+import AddEventVenue1778492921430 from 'src/data/migrations/1778492921430-add-event-venue'
+import AddEventCity1778570810419 from 'src/data/migrations/1778570810419-add-event-city'
 
 const nodeEnv = process.env.NODE_ENV
 
@@ -57,6 +59,8 @@ const dataSource = new DataSource({
     AddCityEntity1777759804533,
     AddUserRole1777761528457,
     AddVenueEntity1777804228297,
+    AddEventVenue1778492921430,
+    AddEventCity1778570810419,
   ],
 })
 

@@ -19,6 +19,8 @@ import GetEventByIdResponseDto from '../dto/response/get-event-by-id.response-dt
 import IntParamPipe from 'src/shared/pipes/int-param.pipe'
 import GetEventsResponseDto from '../dto/response/get-events.response-dto'
 import GetEventsRequestDto from '../dto/request/get-events.request-dto'
+import GetPopularEventsRequestDto from '../dto/request/get-popular-events.request-dto'
+import GetPopularEventsQuery from '../cqrs/queries/get-popular-events.query'
 
 @Controller()
 class EventController {
@@ -45,6 +47,19 @@ class EventController {
   async getEvents(@Query() dto: GetEventsRequestDto): Promise<GetEventsResponseDto> {
     const { data } = await this.queryBus.execute(
       new GetEventsQuery(dto),
+    )
+
+    return plainToInstance(
+      GetEventsResponseDto,
+      data,
+      { excludeExtraneousValues: true },
+    )
+  }
+
+  @Get('popular')
+  async getPopularEvents(@Query() dto: GetPopularEventsRequestDto) {
+    const { data } = await this.queryBus.execute(
+      new GetPopularEventsQuery(dto),
     )
 
     return plainToInstance(

@@ -11,6 +11,7 @@ import uploadProviderNames from 'src/libs/upload/consts/provider-names'
 import FileEntity from 'src/data/entities/file.entity'
 import GenreEntity from 'src/data/entities/genre.entity'
 import ErrorCode from 'src/shared/types/enums/error-code.enum'
+import VenueEntity from 'src/data/entities/venue.entity'
 
 @CommandHandler(AddEventCommand)
 class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
@@ -28,6 +29,7 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
       startDate,
       endDate,
       genresIds,
+      venueId,
     } = command.input
     
     const uploadedImage = await this.uploadService.uploadFile({
@@ -57,6 +59,23 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
           message: `Some genres do not exist. The following is the array of the missing genre IDs: ${formattedMissingGenreIds}`,
         })
       }
+
+      const venueEntity = await manager.findOne(
+        VenueEntity,
+        {
+          where: {
+            id: venueId,
+          },
+          relations: ['city'],
+        },
+      )
+
+      if (!venueEntity) {
+        throw new NotFoundException({
+          code: ErrorCode.VenueNotFound,
+          message: 'A venue with the specified id does not exist',
+        })
+      }
       
       const imageFileEntity = await manager.save(
         FileEntity,
@@ -77,6 +96,8 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
           endDate,
           image: imageFileEntity,
           genres: existingGenres,
+          venue: venueEntity,
+          city: venueEntity.city,
         },
       )
 
