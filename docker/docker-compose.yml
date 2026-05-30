@@ -41,25 +41,6 @@ services:
     networks:
       - default
 
-  server:
-    build:
-      context: ..
-      dockerfile: docker/server/Dockerfile
-    container_name: server
-    environment: 
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
-    ports:
-      - 4000:4000
-    depends_on:
-      postgres:
-        condition: service_healthy
-      minio:
-        condition: service_started
-    entrypoint: ["/bin/sh", "-c", "/usr/local/bin/entrypoint.sh"]
-    networks:
-      - default
-
 volumes:
   db-data:
   minio-data:
@@ -67,4 +48,3 @@ volumes:
 networks:
   default:
     name: concerts-ticketing-app-network
-

@@ -3,6 +3,7 @@ import UploadFileOutput from '../../types/interfaces/service-outputs/upload-file
 
 interface UploadService {
   uploadFile(input: UploadFileInput): Promise<UploadFileOutput>,
+  getPresignedUrl(key: string): Promise<string>,
 }
 
 export default UploadService

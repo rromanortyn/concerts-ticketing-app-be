@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common'
+import { Inject, NotFoundException } from '@nestjs/common'
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -7,12 +7,16 @@ import EventEntity from 'src/data/entities/event.entity'
 import GetEventByIdQuery from '../queries/get-event-by-id.query'
 import GetEventByIdQueryOutput from 'src/modules/event/types/classes/query-outputs/get-event-by-id.query-output'
 import ErrorCode from 'src/shared/types/enums/error-code.enum'
+import uploadProviderNames from 'src/libs/upload/consts/provider-names'
+import type UploadService from 'src/libs/upload/services/interfaces/upload.service'
 
 @QueryHandler(GetEventByIdQuery)
 class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
+    @Inject(uploadProviderNames.minioUploadService)
+    private readonly uploadService: UploadService,
   ) {}
 
   async execute(query: GetEventByIdQuery): Promise<GetEventByIdQueryOutput> {
@@ -40,8 +44,17 @@ class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
       })
     }
 
+    const imageUrl = await this.uploadService.getPresignedUrl(event.image.key)
+
+    const image = {
+      src: imageUrl,
+    }
+
     return {
-      data: event,
+      data: {
+        ...event,
+        image,
+      },
     }
   }
 }

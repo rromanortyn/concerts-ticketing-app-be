@@ -12,10 +12,10 @@ class MinioUploadService implements UploadService {
   private bucketName: string
 
   constructor(private readonly configService: ConfigService) {
-    const minioPort = this.configService.getOrThrow('MINIO_PORT_INNER')
+    const minioPort = this.configService.getOrThrow('MINIO_PORT')
 
     this.minioClient = new Minio.Client({
-      endPoint: this.configService.getOrThrow('MINIO_HOST_INNER'),
+      endPoint: this.configService.getOrThrow('MINIO_HOST'),
       port: parseInt(minioPort, 10),
       useSSL: this.configService.getOrThrow('MINIO_USE_SSL') === 'true',
       accessKey: this.configService.getOrThrow('MINIO_ROOT_USER'),
@@ -56,6 +56,15 @@ class MinioUploadService implements UploadService {
       mimeType: mimetype,
       size,
     }
+  }
+  
+  async getPresignedUrl(key: string): Promise<string> {
+    return this.minioClient.presignedUrl(
+      'GET',
+      this.bucketName,
+      key,
+      // the 4th parameter is expiration time in seconds
+    )
   }
 }
 

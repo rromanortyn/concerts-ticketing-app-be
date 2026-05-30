@@ -1,3 +1,33 @@
+# AGENTS.md
+
+Instructions for coding agents working in this repository.
+
+These instructions apply to this directory and all descendants unless a more specific `AGENTS.md` exists deeper in the tree.
+
+## Agent workflow
+
+- Read the relevant files before editing. Do not guess project structure from filenames alone.
+- Prefer the smallest safe change that solves the task.
+- Preserve existing architecture, naming, formatting, and public APIs unless the task asks for a refactor.
+- Do not rewrite unrelated code, reorder unrelated imports, or apply broad formatting changes.
+- Search for existing patterns before introducing a new abstraction, helper, dependency, or folder.
+- Add or update tests when behavior changes.
+- Run the most relevant checks after editing. Prefer targeted checks first, then broader checks when practical.
+- Do not commit, push, publish, deploy, or install new dependencies unless explicitly asked.
+- If a check cannot be run in the current environment, mention it in the final response.
+
+## Project discovery
+
+Before making changes, inspect the project files that define conventions:
+
+- `package.json`
+- lockfile: `package-lock.json`
+- `tsconfig.json`
+
+Use the package manager implied by the lockfile:
+
+- `package-lock.json` → `npm`
+
 ## Table of Contents
 
   1. [Types](#types)

@@ -7,7 +7,7 @@ class Data {
   startDate: Date
   endDate: Date
   image: {
-    key: string,
+    src: string,
   }
   genres: {
     id: number,

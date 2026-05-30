@@ -1,4 +1,5 @@
 const envFilePaths = {
+  local: '.env.local',
   docker: '.env.docker',
   test: '.env.test',
 } as const

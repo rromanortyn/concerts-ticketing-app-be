@@ -7,6 +7,7 @@ class Data {
   createdAt: Date
   updatedAt: Date
   genres: Array<{ name: string }>
+  image: { src: string }
 }
 
 class GetEventByIdQueryOutput extends ActionOutput<Data, void> {}

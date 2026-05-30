@@ -103,9 +103,16 @@ class AddEventCommandHandler implements ICommandHandler<AddEventCommand> {
 
       return eventEntity
     })
+
+    const imagePresignedUrl = await this.uploadService.getPresignedUrl(uploadedImage.key)
     
     return {
-      data: newEvent,
+      data: {
+        ...newEvent,
+        image: {
+          src: imagePresignedUrl,
+        },
+      },
     }
   }
 }

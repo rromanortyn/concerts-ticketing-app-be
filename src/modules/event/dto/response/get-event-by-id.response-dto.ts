@@ -2,7 +2,7 @@ import { Expose, Type } from 'class-transformer'
 
 class EventImageResponseDto {
   @Expose()
-  key: string
+  src: string
 }
 
 class EventGenreResponseDto {
