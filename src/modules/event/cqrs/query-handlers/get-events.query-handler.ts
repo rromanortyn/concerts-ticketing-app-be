@@ -17,6 +17,7 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
     const {
       skip,
       limit = 10,
+      search,
       cityId,
       genresIds,
       venuesIds,
@@ -57,6 +58,10 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
     if (dates) {
       eventsQueryBuilder.andWhere('event.startDate >= :from', { from: dates.from })
       eventsQueryBuilder.andWhere('event.endDate <= :to', { to: dates.to })
+    }
+
+    if (search) {
+      eventsQueryBuilder.andWhere(`to_tsvector('english', title) @@ to_tsquery('english', :search)`, { search: `${search}:*` })
     }
 
     const events = await eventsQueryBuilder

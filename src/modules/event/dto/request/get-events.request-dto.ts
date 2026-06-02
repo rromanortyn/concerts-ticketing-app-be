@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsOptional, Min, Validate, ValidateNested } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsString, Min, Validate, ValidateNested } from 'class-validator'
 import DateLaterThanField from 'src/shared/decorators/date-later-than-field'
 import TransformArrayOfIntegers from 'src/shared/decorators/transform-array-of-integers'
 
@@ -26,6 +26,11 @@ class GetEventsRequestDto {
   @Min(1, { message: '"limit" should be a positive integer' })
   @IsOptional()
   limit?: number
+
+  @IsNotEmpty({ message: '"search" should not be empty' })
+  @IsString({ message: '"search" should be a string' })
+  @IsOptional()
+  search?: string
 
   @TransformInteger()
   @Min(1, { message: '"cityId" should be a positive integer' })

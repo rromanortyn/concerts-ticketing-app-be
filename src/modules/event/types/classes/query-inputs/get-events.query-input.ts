@@ -1,6 +1,7 @@
 class GetEventsQueryInput {
   skip: number
   limit?: number
+  search?: string
   cityId?: number
   genresIds?: number[]
   venuesIds?: number[]
