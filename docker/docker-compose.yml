@@ -25,6 +25,7 @@ services:
     build:
       context: ..
       dockerfile: docker/minio/Dockerfile
+    restart: always
     ports:
       - ${MINIO_PORT_OUTER}:${MINIO_PORT_INNER}
       - ${MINIO_CONSOLE_PORT_OUTER}:${MINIO_CONSOLE_PORT_INNER}
