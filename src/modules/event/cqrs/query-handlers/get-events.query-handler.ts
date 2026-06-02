@@ -19,6 +19,7 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
       limit = 10,
       cityId,
       genresIds,
+      venuesIds,
       dates,
     } = query.input
 
@@ -47,6 +48,10 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
 
     if (genresIds && genresIds.length > 0) {
       eventsQueryBuilder.andWhere('event-genres.genreId IN (:...genresIds)', { genresIds })
+    }
+
+    if (venuesIds && venuesIds.length > 0) {
+      eventsQueryBuilder.andWhere('event.venueId IN (:...venuesIds)', { venuesIds })
     }
 
     if (dates) {
