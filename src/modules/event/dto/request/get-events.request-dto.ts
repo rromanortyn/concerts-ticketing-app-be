@@ -36,6 +36,11 @@ class GetEventsRequestDto {
   @Min(1, { message: 'Each item of "genresIds" should be a positive integer', each: true })
   @IsOptional()
   genresIds?: number[]
+
+  @TransformArrayOfIntegers()
+  @Min(1, { message: 'Each item of "venuesIds" should be a positive integer', each: true })
+  @IsOptional()
+  venuesIds?: number[]
   
   @ValidateNested()
   @Type(() => DatesFilterDto)
