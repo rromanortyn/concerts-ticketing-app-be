@@ -7,11 +7,22 @@ import AddVenueCommandHandler from './cqrs/command-handlers/add-venue.command-ha
 import CityEntity from 'src/data/entities/city.entity'
 import EventEntity from 'src/data/entities/event.entity'
 import GetVenuesQueryHandler from './cqrs/query-handlers/get-venues.query-handler'
+import GetAllVenuesQueryHandler from './cqrs/query-handlers/get-all-venues.query-handler'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VenueEntity, CityEntity, EventEntity])],
+  imports: [
+    TypeOrmModule.forFeature([
+      VenueEntity,
+      CityEntity,
+      EventEntity,
+    ]),
+  ],
   controllers: [VenueController],
-  providers: [AddVenueCommandHandler, GetVenuesQueryHandler],
+  providers: [
+    AddVenueCommandHandler,
+    GetVenuesQueryHandler,
+    GetAllVenuesQueryHandler,
+  ],
 })
 class VenueModule {}
 

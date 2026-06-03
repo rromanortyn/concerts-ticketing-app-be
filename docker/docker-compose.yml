@@ -1,3 +1,5 @@
+name: concerts-ticketing-app
+
 services:
   postgres:
     build:
