@@ -20,9 +20,9 @@ class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuer
   ) {}
 
   async execute(query: GetPopularEventsQuery): Promise<GetEventsQueryOutput> {
-    const { limit = 10 } = query.input
+    const { limit = 10, cityId } = query.input
 
-    const events = await this.eventRepository.createQueryBuilder('event')
+    const eventsQueryBuilder = this.eventRepository.createQueryBuilder('event')
       .leftJoinAndSelect('event.image', 'image')
       .leftJoinAndSelect('event.city', 'city')
       .leftJoinAndSelect('event.venue', 'venue')
@@ -36,6 +36,12 @@ class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuer
         'city.name',
         'venue.name',
       ])
+
+    if (cityId) {
+      eventsQueryBuilder.andWhere('event.cityId = :cityId', { cityId })
+    }
+
+    const events = await eventsQueryBuilder
       .skip(0)
       .limit(limit)
       .getMany()

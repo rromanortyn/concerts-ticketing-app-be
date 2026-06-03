@@ -7,6 +7,11 @@ class GetPopularEventsRequestDto {
   @IsOptional()
   @TransformInteger()
   limit?: number
+
+  @Min(1, { message: '"cityId" should be a positive integer' })
+  @IsOptional()
+  @TransformInteger()
+  cityId?: number
 }
 
 export default GetPopularEventsRequestDto
