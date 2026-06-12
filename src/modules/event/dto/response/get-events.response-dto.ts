@@ -2,64 +2,64 @@ import { Expose, Type } from 'class-transformer'
 
 class ItemImage {
   @Expose()
-  key: string
+  src!: string
 }
 
 class ItemGenre {
   @Expose()
-  name: string
+  name!: string
 }
 
 class ItemCity {
   @Expose()
-  name: string
+  name!: string
 }
 
 class ItemVenue {
   @Expose()
-  name: string
+  name!: string
 }
 
 class GetEventsItemResponseDto {
   @Expose()
-  id: number
+  id!: number
 
   @Expose()
-  title: string
+  title!: string
 
   @Expose()
-  description: string
+  description!: string
 
   @Expose()
-  startDate: Date
+  startDate!: Date
   
   @Expose()
-  endDate: Date
+  endDate!: Date
   
   @Expose()
   @Type(() => ItemImage)
-  image: ItemImage
+  image!: ItemImage
   
   @Expose()
   @Type(() => ItemGenre)
-  genres: ItemGenre[]
+  genres!: ItemGenre[]
   
   @Expose()
   @Type(() => ItemCity)
-  city: ItemCity
+  city!: ItemCity
   
   @Expose()
   @Type(() => ItemVenue)
-  venue: ItemVenue
+  venue!: ItemVenue
 }
 
 class GetEventsResponseDto {
   @Expose()
   @Type(() => GetEventsItemResponseDto)
-  items: GetEventsItemResponseDto[]
+  items!: GetEventsItemResponseDto[]
   
   @Expose()
-  hasMore: boolean
+  hasMore!: boolean
 }
 
 export default GetEventsResponseDto

@@ -1,3 +1,4 @@
+import os from 'node:os'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as Minio from 'minio'
@@ -5,6 +6,8 @@ import * as Minio from 'minio'
 import UploadService from '../interfaces/upload.service'
 import UploadFileInput from '../../types/interfaces/service-inputs/upload-file.input'
 import UploadFileOutput from '../../types/interfaces/service-outputs/upload-file.output'
+import getLocalIp from 'src/shared/utils/get-local-ip'
+import envKeys from 'src/shared/consts/env-keys'
 
 @Injectable()
 class MinioUploadService implements UploadService {
@@ -12,17 +15,18 @@ class MinioUploadService implements UploadService {
   private bucketName: string
 
   constructor(private readonly configService: ConfigService) {
-    const minioPort = this.configService.getOrThrow('MINIO_PORT')
+    const minioHost = this.configService.getOrThrow(envKeys.minio.host)
+    const minioPort = this.configService.getOrThrow(envKeys.minio.port)
 
     this.minioClient = new Minio.Client({
-      endPoint: this.configService.getOrThrow('MINIO_HOST'),
+      endPoint: minioHost === '127.0.0.1' ? getLocalIp() : minioHost,
       port: parseInt(minioPort, 10),
-      useSSL: this.configService.getOrThrow('MINIO_USE_SSL') === 'true',
-      accessKey: this.configService.getOrThrow('MINIO_ROOT_USER'),
-      secretKey: this.configService.getOrThrow('MINIO_ROOT_PASSWORD'),
+      useSSL: this.configService.getOrThrow(envKeys.minio.useSSL) === 'true',
+      accessKey: this.configService.getOrThrow(envKeys.minio.rootUser),
+      secretKey: this.configService.getOrThrow(envKeys.minio.rootPassword),
     })
 
-    this.bucketName = this.configService.getOrThrow('MINIO_BUCKET_NAME')
+    this.bucketName = this.configService.getOrThrow(envKeys.minio.bucketName)
   }
 
   async uploadFile(input: UploadFileInput): Promise<UploadFileOutput> {

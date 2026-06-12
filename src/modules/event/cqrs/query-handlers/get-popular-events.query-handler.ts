@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common'
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { InjectRepository } from '@nestjs/typeorm'
 import { In, Repository } from 'typeorm'
@@ -7,6 +8,8 @@ import GetEventsQueryOutput from '../../types/classes/query-outputs/get-events.q
 import GenreEntity from 'src/data/entities/genre.entity'
 import EventGenreEntity from 'src/data/entities/event-genre.entity'
 import GetPopularEventsQuery from '../queries/get-popular-events.query'
+import uploadProviderNames from 'src/libs/upload/consts/provider-names'
+import type UploadService from 'src/libs/upload/services/interfaces/upload.service'
 
 @QueryHandler(GetPopularEventsQuery)
 class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuery> {
@@ -17,6 +20,8 @@ class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuer
     private readonly genreRepository: Repository<GenreEntity>,
     @InjectRepository(EventGenreEntity)
     private readonly eventGenreRepository: Repository<EventGenreEntity>,
+    @Inject(uploadProviderNames.minioUploadService)
+    private readonly uploadService: UploadService,
   ) {}
 
   async execute(query: GetPopularEventsQuery): Promise<GetEventsQueryOutput> {
@@ -75,10 +80,19 @@ class GetPopularEventsQueryHandler implements IQueryHandler<GetPopularEventsQuer
           // find the genre entity for each genre id
           .map((eventGenre) => genres.find((genre) => genre.id === eventGenre.genreId)!),
       }))
+console.log(eventsWithGenres)
+    const eventsWithImages = await Promise.all(
+      eventsWithGenres.map(async (event) => ({
+        ...event,
+        image: {
+          src: await this.uploadService.getPresignedUrl(event.image.key),
+        },
+      })),
+    )
 
     return {
       data: {
-        items: eventsWithGenres,
+        items: eventsWithImages,
         hasMore: false,
       },
     }

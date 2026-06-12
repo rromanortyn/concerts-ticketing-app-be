@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common'
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -5,12 +6,16 @@ import { InjectRepository } from '@nestjs/typeorm'
 import EventEntity from 'src/data/entities/event.entity'
 import GetEventsQuery from '../queries/get-events.query'
 import GetEventsQueryOutput from '../../types/classes/query-outputs/get-events.query-output'
+import uploadProviderNames from 'src/libs/upload/consts/provider-names'
+import type UploadService from 'src/libs/upload/services/interfaces/upload.service'
 
 @QueryHandler(GetEventsQuery)
 class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
+    @Inject(uploadProviderNames.minioUploadService)
+    private readonly uploadService: UploadService,
   ) {}
 
   async execute(query: GetEventsQuery): Promise<GetEventsQueryOutput> {
@@ -69,9 +74,18 @@ class GetEventsQueryHandler implements IQueryHandler<GetEventsQuery> {
       .take(limit)
       .getMany()
 
+    const eventsWithImages = await Promise.all(
+      events.map(async (event) => ({
+        ...event,
+        image: {
+          src: await this.uploadService.getPresignedUrl(event.image.key),
+        },
+      })),
+    )
+
     return {
       data: {
-        items: events,
+        items: eventsWithImages,
         hasMore: true,
       },
     }

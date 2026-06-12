@@ -81,9 +81,11 @@ class GetVenuesQueryHandler implements IQueryHandler<GetVenuesQuery> {
       }),
     )
 
+    const filteredItems = items.filter((venue) => venue.events.length > 0)
+
     return {
       data: {
-        items,
+        items: filteredItems,
       },
     }
   }

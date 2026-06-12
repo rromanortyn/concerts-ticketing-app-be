@@ -19,6 +19,14 @@ const envKeys = {
       expiresIn: 'ACCESS_TOKEN_EXPIRES_IN',
     },
   },
+  minio: {
+    host: 'MINIO_HOST',
+    port: 'MINIO_PORT',
+    useSSL: 'MINIO_USE_SSL',
+    rootUser: 'MINIO_ROOT_USER',
+    rootPassword: 'MINIO_ROOT_PASSWORD',
+    bucketName: 'MINIO_BUCKET_NAME',
+  },
 }
 
 export default envKeys
