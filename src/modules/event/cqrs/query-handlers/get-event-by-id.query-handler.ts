@@ -25,6 +25,8 @@ class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
     const event = await this.eventRepository.createQueryBuilder('event')
       .leftJoinAndSelect('event.image', 'image')
       .innerJoinAndSelect('event.genres', 'genres')
+      .innerJoinAndSelect('event.city', 'city')
+      .innerJoinAndSelect('event.venue', 'venue')
       .select([
         'event.id',
         'event.title',
@@ -33,6 +35,9 @@ class GetEventByIdQueryHandler implements IQueryHandler<GetEventByIdQuery> {
         'event.endDate',
         'image.key',
         'genres.name',
+        'city.name',
+        'venue.id',
+        'venue.name',
       ])
       .where('event.id = :id', { id })
       .getOne()

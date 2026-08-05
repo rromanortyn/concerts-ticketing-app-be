@@ -2,37 +2,58 @@ import { Expose, Type } from 'class-transformer'
 
 class EventImageResponseDto {
   @Expose()
-  src: string
+  src!: string
 }
 
 class EventGenreResponseDto {
   @Expose()
-  name: string
+  name!: string
+}
+
+class EventCityResponseDto {
+  @Expose()
+  name!: string
+}
+
+class EventVenueResponseDto {
+  @Expose()
+  id!: number
+
+  @Expose()
+  name!: string
 }
 
 class GetEventByIdResponseDto {
   @Expose()
-  id: number
+  id!: number
 
   @Expose()
-  title: string
+  title!: string
 
   @Expose()
-  description: string
+  description!: string
 
   @Expose()
-  startDate: Date
+  startDate!: Date
   
   @Expose()
-  endDate: Date
+  endDate!: Date
   
   @Expose()
   @Type(() => EventImageResponseDto)
-  image: EventImageResponseDto
+  image!: EventImageResponseDto
   
   @Expose()
   @Type(() => EventGenreResponseDto)
-  genres: EventGenreResponseDto[]
+  genres!: EventGenreResponseDto[]
+
+  @Expose()
+  @Type(() => EventCityResponseDto)
+  city!: EventCityResponseDto
+
+  @Expose()
+  @Type(() => EventVenueResponseDto)
+  venue!: EventVenueResponseDto
 }
 
 export default GetEventByIdResponseDto
