@@ -24,6 +24,8 @@ import AddUserRole1777761528457 from 'src/data/migrations/1777761528457-add-user
 import AddVenueEntity1777804228297 from 'src/data/migrations/1777804228297-add-venue-entity'
 import AddEventVenue1778492921430 from 'src/data/migrations/1778492921430-add-event-venue'
 import AddEventCity1778570810419 from 'src/data/migrations/1778570810419-add-event-city'
+import AddCitySlug1785945502124 from 'src/data/migrations/1785945502124-add-city-slug'
+import SeedCities1785945504000 from 'src/data/migrations/1785945504000-seed-cities'
 
 const nodeEnv = process.env.NODE_ENV
 
@@ -61,6 +63,8 @@ const dataSource = new DataSource({
     AddVenueEntity1777804228297,
     AddEventVenue1778492921430,
     AddEventCity1778570810419,
+    AddCitySlug1785945502124,
+    SeedCities1785945504000,
   ],
 })
 
