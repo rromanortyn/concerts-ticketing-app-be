@@ -16,7 +16,6 @@ class GetAllVenuesQueryHandler implements IQueryHandler<GetAllVenuesQuery> {
   async execute(query: GetAllVenuesQuery): Promise<GetAllVenuesQueryOutput> {
     const { cityId } = query.input
 
-
     const venues = await this.venueRepository.createQueryBuilder('venue')
       .select([
         'venue.id',

@@ -12,14 +12,14 @@ import EventEntity from './event.entity'
 
 @Entity(TableName.Venues)
 class VenueEntity extends BaseEntity {
-  @Column({ type: 'varchar' })
-  name: string
+  @Column({ type: 'varchar', unique: true })
+  name!: string
 
   @ManyToOne(() => CityEntity, (city) => city.venues)
-  city: CityEntity
+  city!: CityEntity
 
   @OneToMany(() => EventEntity, (event) => event.venue)
-  events: EventEntity[]
+  events!: EventEntity[]
 }
 
 export default VenueEntity
